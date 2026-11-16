@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finanzas Cero Estrés | Calculadora & Recursos Digitales</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+  <!-- Navbar Responsivo -->
+  <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <span class="bg-emerald-600 text-white font-bold px-2.5 py-1 rounded-lg text-sm">50/30/20</span>
+        <span class="font-bold text-lg tracking-tight text-slate-900">Finanzas Cero Estrés</span>
+      </div>
+      <div class="flex gap-4 text-sm font-medium">
+        <a href="#calculadora" class="text-slate-600 hover:text-emerald-600">Calculadora</a>
+        <a href="#recurso" class="text-slate-600 hover:text-emerald-600">Video & Plantilla</a>
+        <a href="#historial" class="text-slate-600 hover:text-emerald-600">Registros BD</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-950 text-white py-14 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <span class="inline-block bg-emerald-500/20 text-emerald-300 text-xs font-semibold px-3 py-1 rounded-full mb-4">
+        HERRAMIENTA GRATUITA DE DIAGNÓSTICO FINANCIERO
+      </span>
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">
+        Organiza tu quincena en segundos con la regla <span class="text-emerald-400">50 / 30 / 20</span>
+      </h1>
+      <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto mb-8">
+        Calcula exactamente cuánto destinar a gastos esenciales, estilo de vida y ahorro automático. Guarda tu diagnóstico y descubre cómo automatizar tus finanzas.
+      </p>
+      <a href="#calculadora" class="inline-block bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-6 py-3 rounded-xl shadow-lg transition">
+        Calcular mi presupuesto ahora
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-12 space-y-16">
+
+    <!-- SECCIÓN 1: Calculadora Dinámica + Resultados -->
+    <section id="calculadora" class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+      <!-- Formulario -->
+      <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
+        <h2 class="text-2xl font-bold text-slate-900 mb-2">1. Ingresa tus datos</h2>
+        <p class="text-sm text-slate-500 mb-6">Tu cálculo se procesará y guardará automáticamente en nuestra base de datos PostgreSQL.</p>
+
+        <form id="calcForm" class="space-y-4">
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">Tu nombre o alias</label>
+            <input type="text" id="nombre" required placeholder="Ej. Carlos M."
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">Ingreso mensual libre ($ MXN o USD)</label>
+            <input type="number" id="ingreso" required min="1" step="any" placeholder="Ej. 15000"
+              class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+          </div>
+
+          <button type="submit" id="btnCalcular"
+            class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition shadow">
+            Calcular y Guardar Diagnóstico
+          </button>
+        </form>
+      </div>
+
+      <!-- Tarjeta de Resultado -->
+      <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
+        <h2 class="text-2xl font-bold text-slate-900 mb-2">2. Tu distribución ideal</h2>
+        <p id="resultadoSubtitulo" class="text-sm text-slate-500 mb-6">Completa el formulario para ver tu desglose personalizado.</p>
+
+        <div class="space-y-5">
+          <!-- 50% Necesidades -->
+          <div>
+            <div class="flex justify-between text-sm font-semibold mb-1">
+              <span>🏠 Necesidades básicas (50%)</span>
+              <span id="resNecesidades" class="text-slate-900">$0.00</span>
+            </div>
+            <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+              <div class="bg-blue-600 h-3 rounded-full" style="width: 50%"></div>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Renta, despensa, transporte, servicios básicos.</p>
+          </div>
+
+          <!-- 30% Gustos -->
+          <div>
+            <div class="flex justify-between text-sm font-semibold mb-1">
+              <span>🎯 Estilo de vida y gustos (30%)</span>
+              <span id="resGustos" class="text-slate-900">$0.00</span>
+            </div>
+            <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+              <div class="bg-amber-500 h-3 rounded-full" style="width: 30%"></div>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Salidas, entretenimiento, compras personales.</p>
+          </div>
+
+          <!-- 20% Ahorro -->
+          <div>
+            <div class="flex justify-between text-sm font-semibold mb-1">
+              <span>🚀 Ahorro e inversión (20%)</span>
+              <span id="resAhorro" class="text-emerald-600 font-bold">$0.00</span>
+            </div>
+            <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+              <div class="bg-emerald-500 h-3 rounded-full" style="width: 20%"></div>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">Fondo de emergencia, CETES, inversión o pago a capital de deudas.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 2: Medios en la Nube + Embudo Shopify -->
+    <section id="recurso" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-2">
+        <!-- Video embebido desde la nube (YouTube) -->
+        <div class="bg-slate-900 aspect-video lg:aspect-auto flex items-center justify-center">
+          <iframe id="prodVideo" class="w-full h-full min-h-[260px]"
+            src="https://www.youtube.com/embed/HQzoZfc3GwQ"
+            title="Video explicativo en la nube"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+
+        <!-- Información del Producto cargada desde PostgreSQL -->
+        <div class="p-6 sm:p-10 flex flex-col justify-between space-y-6">
+          <div>
+            <div class="flex items-center gap-3 mb-3">
+              <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-md">DESCARGA DIGITAL AUTOMÁTICA</span>
+              <span id="prodPrecio" class="text-lg font-extrabold text-slate-900">$9.99 USD</span>
+            </div>
+            <h3 id="prodTitulo" class="text-2xl font-bold text-slate-900 mb-3">Cargando recurso...</h3>
+            <p id="prodDesc" class="text-slate-600 text-sm leading-relaxed mb-4"></p>
+
+            <!-- Imagen alojada en la nube (Unsplash / Cloudinary) -->
+            <img id="prodImagen" src="" alt="Vista previa del producto en la nube"
+              class="w-full h-40 object-cover rounded-xl border border-slate-200" />
+          </div>
+
+          <div class="pt-2">
+            <a id="btnShopify" href="#proximamente-shopify" onclick="avisarShopify(event)"
+              class="block w-full text-center bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 px-6 rounded-xl transition">
+              Obtener Plantilla en Shopify (Próximamente)
+            </a>
+            <p class="text-xs text-center text-slate-400 mt-2">Entrega instantánea automatizada 24/7 vía Shopify Digital Downloads.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 3: Historial en Tiempo Real (Evidencia de Base de Datos) -->
+    <section id="historial" class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">Últimos diagnósticos guardados (PostgreSQL en vivo)</h2>
+          <p class="text-sm text-slate-500">Cada cálculo realizado se almacena de forma persistente en la base de datos.</p>
+        </div>
+        <button onclick="cargarHistorial()" class="text-sm text-emerald-600 font-semibold hover:underline self-start sm:self-auto">
+          ↻ Actualizar lista
+        </button>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse text-sm">
+          <thead>
+            <tr class="border-b border-slate-200 text-slate-500">
+              <th class="py-3 px-2">Usuario</th>
+              <th class="py-3 px-2">Ingreso</th>
+              <th class="py-3 px-2">Necesidades (50%)</th>
+              <th class="py-3 px-2">Gustos (30%)</th>
+              <th class="py-3 px-2">Ahorro (20%)</th>
+              <th class="py-3 px-2 text-right">Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tablaHistorial" class="divide-y divide-slate-100">
+            <tr>
+              <td colspan="6" class="py-6 text-center text-slate-400">Cargando registros desde la base de datos...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-slate-900 text-slate-400 text-center py-6 text-xs">
+    <p>Finanzas Cero Estrés © 2026 — Aplicación Web Dinámica con PostgreSQL y Medios en la Nube.</p>
+  </footer>
+
+  <!-- Lógica Frontend conectada a la API -->
+  <script>
+    const formatoMoneda = (num) => {
+      return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(num);
+    };
+
+    // Cargar producto con medios en la nube desde la BD
+    async function cargarProducto() {
+      try {
+        const res = await fetch('/api/producto');
+        const prod = await res.json();
+        if (prod.titulo) {
+          document.getElementById('prodTitulo').textContent = prod.titulo;
+          document.getElementById('prodDesc').textContent = prod.descripcion;
+          document.getElementById('prodPrecio').textContent = prod.precio;
+          document.getElementById('prodImagen').src = prod.imagen_nube_url;
+          document.getElementById('prodVideo').src = prod.video_nube_url;
+          document.getElementById('btnShopify').href = prod.shopify_url;
+        }
+      } catch (e) {
+        console.error('Error cargando producto:', e);
+      }
+    }
+
+    // Cargar historial de cálculos desde PostgreSQL
+    async function cargarHistorial() {
+      const tbody = document.getElementById('tablaHistorial');
+      try {
+        const res = await fetch('/api/diagnosticos');
+        const datos = await res.json();
+
+        if (!datos.length) {
+          tbody.innerHTML = '<tr><td colspan="6" class="py-6 text-center text-slate-400">Aún no hay cálculos guardados. ¡Haz el primero arriba!</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = datos.map(d => `
+          <tr class="hover:bg-slate-50">
+            <td class="py-3 px-2 font-medium text-slate-900">${d.nombre}</td>
+            <td class="py-3 px-2">${formatoMoneda(d.ingreso_mensual)}</td>
+            <td class="py-3 px-2 text-blue-600">${formatoMoneda(d.necesidades)}</td>
+            <td class="py-3 px-2 text-amber-600">${formatoMoneda(d.gustos)}</td>
+            <td class="py-3 px-2 text-emerald-600 font-bold">${formatoMoneda(d.ahorro)}</td>
+            <td class="py-3 px-2 text-right">
+              <button onclick="eliminarRegistro(${d.id})" class="text-xs text-red-500 hover:underline">Eliminar</button>
+            </td>
+          </tr>
+        `).join('');
+      } catch (e) {
+        tbody.innerHTML = '<tr><td colspan="6" class="py-6 text-center text-red-500">Error al conectar con la base de datos.</td></tr>';
+      }
+    }
+
+    // Enviar cálculo al servidor
+    document.getElementById('calcForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('btnCalcular');
+      const nombre = document.getElementById('nombre').value;
+      const ingreso_mensual = document.getElementById('ingreso').value;
+
+      btn.disabled = true;
+      btn.textContent = 'Guardando en BD...';
+
+      try {
+        const res = await fetch('/api/diagnosticos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nombre, ingreso_mensual })
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          document.getElementById('resultadoSubtitulo').textContent = `Diagnóstico guardado para ${data.nombre}:`;
+          document.getElementById('resNecesidades').textContent = formatoMoneda(data.necesidades);
+          document.getElementById('resGustos').textContent = formatoMoneda(data.gustos);
+          document.getElementById('resAhorro').textContent = formatoMoneda(data.ahorro);
+          cargarHistorial();
+        } else {
+          alert(data.error || 'Error al calcular');
+        }
+      } catch (err) {
+        alert('No se pudo conectar con el servidor.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Calcular y Guardar Diagnóstico';
+      }
+    });
+
+    async function eliminarRegistro(id) {
+      await fetch(`/api/diagnosticos/${id}`, { method: 'DELETE' });
+      cargarHistorial();
+    }
+
+    function avisarShopify(e) {
+      const href = e.currentTarget.getAttribute('href');
+      if (href === '#proximamente-shopify') {
+        e.preventDefault();
+        alert('Fase 2 del proyecto: Aquí se enlazará el Checkout directo de Shopify cuando publiquemos la plantilla.');
+      }
+    }
+
+    // Inicializar al abrir la página
+    cargarProducto();
+    cargarHistorial();
+  </script>
+</body>
+</html>
