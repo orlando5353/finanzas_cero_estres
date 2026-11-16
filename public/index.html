@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Finanzas Cero Estrés | Calculadora & Recursos Digitales</title>
+  <title>Finanzas Cero Estrés | Calculadora Privada & Recursos Digitales</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased">
@@ -17,8 +17,8 @@
       </div>
       <div class="flex gap-4 text-sm font-medium">
         <a href="#calculadora" class="text-slate-600 hover:text-emerald-600">Calculadora</a>
-        <a href="#recurso" class="text-slate-600 hover:text-emerald-600">Video & Plantilla</a>
-        <a href="#historial" class="text-slate-600 hover:text-emerald-600">Registros BD</a>
+        <a href="#recurso" class="text-slate-600 hover:text-emerald-600">Plantilla</a>
+        <a href="#comunidad" class="text-slate-600 hover:text-emerald-600">Opiniones</a>
       </div>
     </div>
   </nav>
@@ -27,13 +27,13 @@
   <header class="bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-950 text-white py-14 px-4">
     <div class="max-w-4xl mx-auto text-center">
       <span class="inline-block bg-emerald-500/20 text-emerald-300 text-xs font-semibold px-3 py-1 rounded-full mb-4">
-        HERRAMIENTA GRATUITA DE DIAGNÓSTICO FINANCIERO
+        100% PRIVADO • SIN REGISTRO DE DATOS FINANCIEROS
       </span>
       <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">
         Organiza tu quincena en segundos con la regla <span class="text-emerald-400">50 / 30 / 20</span>
       </h1>
       <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto mb-8">
-        Calcula exactamente cuánto destinar a gastos esenciales, estilo de vida y ahorro automático. Guarda tu diagnóstico y descubre cómo automatizar tus finanzas.
+        Calcula al instante cuánto destinar a gastos esenciales, estilo de vida y ahorro. Tus números se procesan únicamente en tu navegador y nunca se almacenan.
       </p>
       <a href="#calculadora" class="inline-block bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-6 py-3 rounded-xl shadow-lg transition">
         Calcular mi presupuesto ahora
@@ -43,29 +43,25 @@
 
   <main class="max-w-6xl mx-auto px-4 py-12 space-y-16">
 
-    <!-- SECCIÓN 1: Calculadora Dinámica + Resultados -->
+    <!-- SECCIÓN 1: Calculadora 100% Privada (Procesamiento local) -->
     <section id="calculadora" class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-      <!-- Formulario -->
       <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
-        <h2 class="text-2xl font-bold text-slate-900 mb-2">1. Ingresa tus datos</h2>
-        <p class="text-sm text-slate-500 mb-6">Tu cálculo se procesará y guardará automáticamente en nuestra base de datos PostgreSQL.</p>
+        <div class="flex items-center justify-between mb-2">
+          <h2 class="text-2xl font-bold text-slate-900">1. Ingresa tu monto</h2>
+          <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full font-medium">🔒 Cálculo privado</span>
+        </div>
+        <p class="text-sm text-slate-500 mb-6">Tus cifras no se envían a ningún servidor ni se guardan en bases de datos.</p>
 
         <form id="calcForm" class="space-y-4">
           <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-1">Tu nombre o alias</label>
-            <input type="text" id="nombre" required placeholder="Ej. Carlos M."
-              class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
-          </div>
-
-          <div>
-            <label class="block text-sm font-semibold text-slate-700 mb-1">Ingreso mensual libre ($ MXN o USD)</label>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">Ingreso mensual o quincenal libre ($)</label>
             <input type="number" id="ingreso" required min="1" step="any" placeholder="Ej. 15000"
-              class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
+              class="w-full px-4 py-3 text-lg rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none" />
           </div>
 
-          <button type="submit" id="btnCalcular"
-            class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl transition shadow">
-            Calcular y Guardar Diagnóstico
+          <button type="submit"
+            class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl transition shadow">
+            Calcular Distribución
           </button>
         </form>
       </div>
@@ -73,14 +69,13 @@
       <!-- Tarjeta de Resultado -->
       <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
         <h2 class="text-2xl font-bold text-slate-900 mb-2">2. Tu distribución ideal</h2>
-        <p id="resultadoSubtitulo" class="text-sm text-slate-500 mb-6">Completa el formulario para ver tu desglose personalizado.</p>
+        <p id="resultadoSubtitulo" class="text-sm text-slate-500 mb-6">Ingresa un monto a la izquierda para ver el desglose automático.</p>
 
         <div class="space-y-5">
-          <!-- 50% Necesidades -->
           <div>
             <div class="flex justify-between text-sm font-semibold mb-1">
               <span>🏠 Necesidades básicas (50%)</span>
-              <span id="resNecesidades" class="text-slate-900">$0.00</span>
+              <span id="resNecesidades" class="text-slate-900 font-bold">$0.00</span>
             </div>
             <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
               <div class="bg-blue-600 h-3 rounded-full" style="width: 50%"></div>
@@ -88,11 +83,10 @@
             <p class="text-xs text-slate-400 mt-1">Renta, despensa, transporte, servicios básicos.</p>
           </div>
 
-          <!-- 30% Gustos -->
           <div>
             <div class="flex justify-between text-sm font-semibold mb-1">
               <span>🎯 Estilo de vida y gustos (30%)</span>
-              <span id="resGustos" class="text-slate-900">$0.00</span>
+              <span id="resGustos" class="text-slate-900 font-bold">$0.00</span>
             </div>
             <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
               <div class="bg-amber-500 h-3 rounded-full" style="width: 30%"></div>
@@ -100,7 +94,6 @@
             <p class="text-xs text-slate-400 mt-1">Salidas, entretenimiento, compras personales.</p>
           </div>
 
-          <!-- 20% Ahorro -->
           <div>
             <div class="flex justify-between text-sm font-semibold mb-1">
               <span>🚀 Ahorro e inversión (20%)</span>
@@ -109,7 +102,7 @@
             <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
               <div class="bg-emerald-500 h-3 rounded-full" style="width: 20%"></div>
             </div>
-            <p class="text-xs text-slate-400 mt-1">Fondo de emergencia, CETES, inversión o pago a capital de deudas.</p>
+            <p class="text-xs text-slate-400 mt-1">Fondo de emergencia, inversión o pago a capital de deudas.</p>
           </div>
         </div>
       </div>
@@ -118,7 +111,6 @@
     <!-- SECCIÓN 2: Medios en la Nube + Embudo Shopify -->
     <section id="recurso" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
       <div class="grid grid-cols-1 lg:grid-cols-2">
-        <!-- Video embebido desde la nube (YouTube) -->
         <div class="bg-slate-900 aspect-video lg:aspect-auto flex items-center justify-center">
           <iframe id="prodVideo" class="w-full h-full min-h-[260px]"
             src="https://www.youtube.com/embed/HQzoZfc3GwQ"
@@ -129,7 +121,6 @@
           </iframe>
         </div>
 
-        <!-- Información del Producto cargada desde PostgreSQL -->
         <div class="p-6 sm:p-10 flex flex-col justify-between space-y-6">
           <div>
             <div class="flex items-center gap-3 mb-3">
@@ -139,7 +130,6 @@
             <h3 id="prodTitulo" class="text-2xl font-bold text-slate-900 mb-3">Cargando recurso...</h3>
             <p id="prodDesc" class="text-slate-600 text-sm leading-relaxed mb-4"></p>
 
-            <!-- Imagen alojada en la nube (Unsplash / Cloudinary) -->
             <img id="prodImagen" src="" alt="Vista previa del producto en la nube"
               class="w-full h-40 object-cover rounded-xl border border-slate-200" />
           </div>
@@ -155,52 +145,87 @@
       </div>
     </section>
 
-    <!-- SECCIÓN 3: Historial en Tiempo Real (Evidencia de Base de Datos) -->
-    <section id="historial" class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
-        <div>
-          <h2 class="text-xl font-bold text-slate-900">Últimos diagnósticos guardados (PostgreSQL en vivo)</h2>
-          <p class="text-sm text-slate-500">Cada cálculo realizado se almacena de forma persistente en la base de datos.</p>
-        </div>
-        <button onclick="cargarHistorial()" class="text-sm text-emerald-600 font-semibold hover:underline self-start sm:self-auto">
-          ↻ Actualizar lista
-        </button>
+    <!-- SECCIÓN 3: Muro de Reseñas y Comunidad (Base de Datos PostgreSQL) -->
+    <section id="comunidad" class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+      <!-- Formulario para dejar reseña -->
+      <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
+        <h2 class="text-xl font-bold text-slate-900 mb-2">¿Te sirvió la herramienta?</h2>
+        <p class="text-sm text-slate-500 mb-5">Déjanos tu opinión o qué otra calculadora te gustaría ver aquí.</p>
+
+        <form id="resenaForm" class="space-y-4">
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">Tu nombre o inicial</label>
+            <input type="text" id="resNombre" required placeholder="Ej. Mariana L."
+              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">Calificación</label>
+            <select id="resEstrellas"
+              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm bg-white">
+              <option value="5">⭐⭐⭐⭐⭐ (5 - Excelente)</option>
+              <option value="4">⭐⭐⭐⭐ (4 - Muy buena)</option>
+              <option value="3">⭐⭐⭐ (3 - Buena)</option>
+              <option value="2">⭐⭐ (2 - Regular)</option>
+              <option value="1">⭐ (1 - Por mejorar)</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">Tu comentario</label>
+            <textarea id="resComentario" rows="3" required placeholder="Escribe aquí tu experiencia..."
+              class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:outline-none text-sm"></textarea>
+          </div>
+
+          <button type="submit" id="btnResena"
+            class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 rounded-xl transition text-sm">
+            Publicar Opinión
+          </button>
+        </form>
       </div>
 
-      <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse text-sm">
-          <thead>
-            <tr class="border-b border-slate-200 text-slate-500">
-              <th class="py-3 px-2">Usuario</th>
-              <th class="py-3 px-2">Ingreso</th>
-              <th class="py-3 px-2">Necesidades (50%)</th>
-              <th class="py-3 px-2">Gustos (30%)</th>
-              <th class="py-3 px-2">Ahorro (20%)</th>
-              <th class="py-3 px-2 text-right">Acción</th>
-            </tr>
-          </thead>
-          <tbody id="tablaHistorial" class="divide-y divide-slate-100">
-            <tr>
-              <td colspan="6" class="py-6 text-center text-slate-400">Cargando registros desde la base de datos...</td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- Listado de Reseñas desde PostgreSQL -->
+      <div class="lg:col-span-2 bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h2 class="text-xl font-bold text-slate-900">Opiniones de la comunidad</h2>
+            <p class="text-sm text-slate-500">Comentarios almacenados en nuestra base de datos PostgreSQL.</p>
+          </div>
+          <button onclick="cargarResenas()" class="text-sm text-emerald-600 font-semibold hover:underline">
+            ↻ Actualizar
+          </button>
+        </div>
+
+        <div id="listaResenas" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <p class="text-sm text-slate-400">Cargando opiniones...</p>
+        </div>
       </div>
     </section>
 
   </main>
 
   <footer class="bg-slate-900 text-slate-400 text-center py-6 text-xs">
-    <p>Finanzas Cero Estrés © 2026 — Aplicación Web Dinámica con PostgreSQL y Medios en la Nube.</p>
+    <p>Finanzas Cero Estrés © 2026 — Herramienta Privada con PostgreSQL y Medios en la Nube.</p>
   </footer>
 
-  <!-- Lógica Frontend conectada a la API -->
   <script>
     const formatoMoneda = (num) => {
       return new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(num);
     };
 
-    // Cargar producto con medios en la nube desde la BD
+    // 1. Cálculo 100% local en el navegador (cero envío de datos financieros)
+    document.getElementById('calcForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const ingreso = parseFloat(document.getElementById('ingreso').value);
+      if (isNaN(ingreso) || ingreso <= 0) return;
+
+      document.getElementById('resultadoSubtitulo').textContent = `Desglose privado para un ingreso de ${formatoMoneda(ingreso)}:`;
+      document.getElementById('resNecesidades').textContent = formatoMoneda(ingreso * 0.50);
+      document.getElementById('resGustos').textContent = formatoMoneda(ingreso * 0.30);
+      document.getElementById('resAhorro').textContent = formatoMoneda(ingreso * 0.20);
+    });
+
+    // 2. Cargar producto desde PostgreSQL
     async function cargarProducto() {
       try {
         const res = await fetch('/api/producto');
@@ -218,74 +243,58 @@
       }
     }
 
-    // Cargar historial de cálculos desde PostgreSQL
-    async function cargarHistorial() {
-      const tbody = document.getElementById('tablaHistorial');
+    // 3. Cargar reseñas públicas desde PostgreSQL
+    async function cargarResenas() {
+      const contenedor = document.getElementById('listaResenas');
       try {
-        const res = await fetch('/api/diagnosticos');
+        const res = await fetch('/api/resenas');
         const datos = await res.json();
 
-        if (!datos.length) {
-          tbody.innerHTML = '<tr><td colspan="6" class="py-6 text-center text-slate-400">Aún no hay cálculos guardados. ¡Haz el primero arriba!</td></tr>';
-          return;
-        }
-
-        tbody.innerHTML = datos.map(d => `
-          <tr class="hover:bg-slate-50">
-            <td class="py-3 px-2 font-medium text-slate-900">${d.nombre}</td>
-            <td class="py-3 px-2">${formatoMoneda(d.ingreso_mensual)}</td>
-            <td class="py-3 px-2 text-blue-600">${formatoMoneda(d.necesidades)}</td>
-            <td class="py-3 px-2 text-amber-600">${formatoMoneda(d.gustos)}</td>
-            <td class="py-3 px-2 text-emerald-600 font-bold">${formatoMoneda(d.ahorro)}</td>
-            <td class="py-3 px-2 text-right">
-              <button onclick="eliminarRegistro(${d.id})" class="text-xs text-red-500 hover:underline">Eliminar</button>
-            </td>
-          </tr>
+        contenedor.innerHTML = datos.map(r => `
+          <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-bold text-slate-900 text-sm">${r.nombre}</span>
+                <span class="text-xs">${'⭐'.repeat(r.calificacion)}</span>
+              </div>
+              <p class="text-slate-600 text-sm leading-relaxed">"${r.comentario}"</p>
+            </div>
+          </div>
         `).join('');
       } catch (e) {
-        tbody.innerHTML = '<tr><td colspan="6" class="py-6 text-center text-red-500">Error al conectar con la base de datos.</td></tr>';
+        contenedor.innerHTML = '<p class="text-sm text-red-500">Error al cargar opiniones.</p>';
       }
     }
 
-    // Enviar cálculo al servidor
-    document.getElementById('calcForm').addEventListener('submit', async (e) => {
+    // 4. Guardar nueva reseña en PostgreSQL
+    document.getElementById('resenaForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const btn = document.getElementById('btnCalcular');
-      const nombre = document.getElementById('nombre').value;
-      const ingreso_mensual = document.getElementById('ingreso').value;
+      const btn = document.getElementById('btnResena');
+      const nombre = document.getElementById('resNombre').value;
+      const calificacion = document.getElementById('resEstrellas').value;
+      const comentario = document.getElementById('resComentario').value;
 
       btn.disabled = true;
-      btn.textContent = 'Guardando en BD...';
+      btn.textContent = 'Publicando...';
 
       try {
-        const res = await fetch('/api/diagnosticos', {
+        const res = await fetch('/api/resenas', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nombre, ingreso_mensual })
+          body: JSON.stringify({ nombre, calificacion, comentario })
         });
-        const data = await res.json();
 
         if (res.ok) {
-          document.getElementById('resultadoSubtitulo').textContent = `Diagnóstico guardado para ${data.nombre}:`;
-          document.getElementById('resNecesidades').textContent = formatoMoneda(data.necesidades);
-          document.getElementById('resGustos').textContent = formatoMoneda(data.gustos);
-          document.getElementById('resAhorro').textContent = formatoMoneda(data.ahorro);
-          cargarHistorial();
-        } else {
-          alert(data.error || 'Error al calcular');
+          document.getElementById('resenaForm').reset();
+          cargarResenas();
         }
       } catch (err) {
-        alert('No se pudo conectar con el servidor.');
+        alert('Error al publicar opinión.');
       } finally {
         btn.disabled = false;
-        btn.textContent = 'Calcular y Guardar Diagnóstico';
+        btn.textContent = 'Publicar Opinión';
       }
     });
-
-    async function eliminarRegistro(id) {
-      await fetch(`/api/diagnosticos/${id}`, { method: 'DELETE' });
-      cargarHistorial();
-    }
 
     function avisarShopify(e) {
       const href = e.currentTarget.getAttribute('href');
@@ -295,9 +304,8 @@
       }
     }
 
-    // Inicializar al abrir la página
     cargarProducto();
-    cargarHistorial();
+    cargarResenas();
   </script>
 </body>
 </html>

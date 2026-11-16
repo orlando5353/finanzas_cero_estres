@@ -7,12 +7,10 @@ const { Pool } = require('pg');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Conexión a PostgreSQL (compatible con SSL de Render y Railway)
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('localhost')
@@ -20,9 +18,11 @@ const pool = new Pool({
     : false
 });
 
-// Inicializar tablas y datos base automáticamente
 async function initDB() {
   try {
+    // Limpiar tabla anterior con datos financieros si existe
+    await pool.query(`DROP TABLE IF EXISTS diagnosticos;`);
+
     await pool.query(`
       CREATE TABLE IF NOT EXISTS productos (
         id SERIAL PRIMARY KEY,
@@ -36,20 +36,17 @@ async function initDB() {
     `);
 
     await pool.query(`
-      CREATE TABLE IF NOT EXISTS diagnosticos (
+      CREATE TABLE IF NOT EXISTS resenas (
         id SERIAL PRIMARY KEY,
         nombre VARCHAR(100) NOT NULL,
-        ingreso_mensual NUMERIC(12, 2) NOT NULL,
-        necesidades NUMERIC(12, 2) NOT NULL,
-        gustos NUMERIC(12, 2) NOT NULL,
-        ahorro NUMERIC(12, 2) NOT NULL,
+        calificacion INT NOT NULL CHECK (calificacion >= 1 AND calificacion <= 5),
+        comentario TEXT NOT NULL,
         fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
 
-    // Insertar producto inicial si la tabla está vacía (medios alojados en la nube)
-    const { rows } = await pool.query('SELECT COUNT(*) FROM productos');
-    if (parseInt(rows[0].count) === 0) {
+    const { rows: prodRows } = await pool.query('SELECT COUNT(*) FROM productos');
+    if (parseInt(prodRows[0].count) === 0) {
       await pool.query(
         `INSERT INTO productos (titulo, descripcion, precio, imagen_nube_url, video_nube_url, shopify_url)
          VALUES ($1, $2, $3, $4, $5, $6)`,
@@ -63,7 +60,17 @@ async function initDB() {
         ]
       );
     }
-    console.log('Base de datos PostgreSQL inicializada correctamente.');
+
+    const { rows: resRows } = await pool.query('SELECT COUNT(*) FROM resenas');
+    if (parseInt(resRows[0].count) === 0) {
+      await pool.query(
+        `INSERT INTO resenas (nombre, calificacion, comentario) VALUES 
+         ('Sofía G.', 5, 'Excelente herramienta, me dio mucha claridad sobre cuánto debo ahorrar cada mes sin comprometer mi privacidad.'),
+         ('Alejandro R.', 5, 'Súper rápida y clara. Ideal para dividir la quincena en segundos desde el celular.')`
+      );
+    }
+
+    console.log('Base de datos PostgreSQL actualizada correctamente.');
   } catch (err) {
     console.error('Error al inicializar la base de datos:', err);
   }
@@ -71,7 +78,6 @@ async function initDB() {
 
 // --- RUTAS DE LA API ---
 
-// 1. Obtener el producto destacado (con enlaces de medios en la nube)
 app.get('/api/producto', async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM productos ORDER BY id ASC LIMIT 1');
@@ -81,54 +87,35 @@ app.get('/api/producto', async (req, res) => {
   }
 });
 
-// 2. Obtener historial de diagnósticos guardados en la BD
-app.get('/api/diagnosticos', async (req, res) => {
+app.get('/api/resenas', async (req, res) => {
   try {
-    const result = await pool.query(
-      'SELECT * FROM diagnosticos ORDER BY fecha DESC LIMIT 10'
-    );
+    const result = await pool.query('SELECT * FROM resenas ORDER BY fecha DESC LIMIT 12');
     res.json(result.rows);
   } catch (err) {
-    res.status(500).json({ error: 'Error al consultar diagnósticos' });
+    res.status(500).json({ error: 'Error al obtener reseñas' });
   }
 });
 
-// 3. Guardar un nuevo cálculo financiero en la BD
-app.post('/api/diagnosticos', async (req, res) => {
-  const { nombre, ingreso_mensual } = req.body;
-  const ingreso = parseFloat(ingreso_mensual);
+app.post('/api/resenas', async (req, res) => {
+  const { nombre, calificacion, comentario } = req.body;
+  const estrellas = parseInt(calificacion);
 
-  if (!nombre || isNaN(ingreso) || ingreso <= 0) {
-    return res.status(400).json({ error: 'Ingresa un nombre y un monto válido mayor a 0.' });
+  if (!nombre || !comentario || isNaN(estrellas) || estrellas < 1 || estrellas > 5) {
+    return res.status(400).json({ error: 'Completa tu nombre, calificación y comentario.' });
   }
-
-  const necesidades = +(ingreso * 0.50).toFixed(2);
-  const gustos = +(ingreso * 0.30).toFixed(2);
-  const ahorro = +(ingreso * 0.20).toFixed(2);
 
   try {
     const result = await pool.query(
-      `INSERT INTO diagnosticos (nombre, ingreso_mensual, necesidades, gustos, ahorro)
-       VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [nombre.trim(), ingreso, necesidades, gustos, ahorro]
+      `INSERT INTO resenas (nombre, calificacion, comentario)
+       VALUES ($1, $2, $3) RETURNING *`,
+      [nombre.trim(), estrellas, comentario.trim()]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
-    res.status(500).json({ error: 'Error al guardar en base de datos' });
+    res.status(500).json({ error: 'Error al guardar reseña' });
   }
 });
 
-// 4. Eliminar un registro de prueba
-app.delete('/api/diagnosticos/:id', async (req, res) => {
-  try {
-    await pool.query('DELETE FROM diagnosticos WHERE id = $1', [req.params.id]);
-    res.json({ ok: true });
-  } catch (err) {
-    res.status(500).json({ error: 'Error al eliminar registro' });
-  }
-});
-
-// Iniciar servidor
 app.listen(PORT, async () => {
   await initDB();
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
